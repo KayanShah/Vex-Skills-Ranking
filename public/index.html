@@ -88,9 +88,9 @@ tr.bronze .rank-badge{color:var(--bronze)}
 .error-banner{margin:16px;padding:13px 16px;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.3);border-radius:8px;color:#f08090;font-size:13px;display:none}
 .error-banner.visible{display:block}
 
-footer{padding:12px 40px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--font-mono)}
+footer{padding:16px 40px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--muted);font-family:var(--font-mono)}
 .footer-left{display:flex;align-items:center;gap:12px}
-.footer-logo{display:none}.header-logo{width:52px;height:52px;border-radius:8px;object-fit:contain;position:absolute;right:40px;top:50%;transform:translateY(-50%)}
+.footer-logo{display:none}.header-logo{width:68px;height:68px;border-radius:8px;object-fit:contain;position:absolute;right:40px;top:50%;transform:translateY(-50%)}
 .footer-text{display:flex;flex-direction:column;gap:1px}
 .footer-link{color:var(--accent2);text-decoration:none}
 .footer-link:hover{text-decoration:underline}
@@ -375,10 +375,33 @@ function generatePDF(ranked, noScore, eventTitle, divisionName, divKey) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 130);
-      doc.text('Page ' + data.pageNumber + ' · ' + divisionName + ' Skills Rankings · HABS Gliders Scouting', W - 14, H - 8, { align: 'right' });
-      try {
-        doc.addImage(LOGO_SRC, 'PNG', 14, H - 14, 8, 8);
-      } catch(e) {}
+      // Draw footer line
+      doc.setDrawColor(50, 50, 80);
+      doc.setLineWidth(0.3);
+      doc.line(14, H - 14, W - 14, H - 14);
+      // Left: logo + page number
+      try { doc.addImage(LOGO_SRC, 'PNG', 14, H - 12, 7, 7); } catch(e) {}
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 130);
+      doc.text('Page ' + data.pageNumber, 24, H - 7);
+      // Centre: division label
+      doc.text(divisionName + ' Skills Rankings', W / 2, H - 7, { align: 'center' });
+      // Right: Created by + HABS Gliders
+      var createdByText = 'Created by Kayan Shah  ·  HABS Gliders Scouting';
+      var textWidth = doc.getTextWidth(createdByText);
+      var githubX = W - 14 - textWidth;
+      doc.text(createdByText, W - 14, H - 7, { align: 'right' });
+      // Underline "Kayan Shah" as a hyperlink
+      var fullText = 'Created by Kayan Shah  ·  HABS Gliders Scouting';
+      var prefixWidth = doc.getTextWidth('Created by ');
+      var nameWidth = doc.getTextWidth('Kayan Shah');
+      var nameX = githubX + prefixWidth;
+      doc.setDrawColor(79, 142, 247);
+      doc.setLineWidth(0.2);
+      doc.line(nameX, H - 6.5, nameX + nameWidth, H - 6.5);
+      doc.setTextColor(79, 142, 247);
+      doc.textWithLink('Kayan Shah', nameX, H - 7, { url: 'https://github.com/KayanShah' });
     }
   });
 
