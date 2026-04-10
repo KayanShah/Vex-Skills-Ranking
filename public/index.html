@@ -79,10 +79,10 @@ main{display:grid;grid-template-columns:300px 1fr}
 .rank-3 .rank-badge{color:var(--bronze)}
 .rank-1 td,.rank-2 td,.rank-3 td{background:rgba(255,255,255,.03) !important}
 .score-cell{font-family:var(--font-mono);font-weight:500;color:#e8eaf0}
-.sub-cell{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.sub-cell{font-family:var(--font-mono);font-size:11px;color:#8890aa}
 .team-num{font-family:var(--font-mono);font-size:12px;color:var(--accent2)}
-.global-rank{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
-.country-flag{font-size:10px;color:var(--muted)}
+.global-rank{font-family:var(--font-mono);font-size:11px;color:#8890aa}
+.country-flag{font-size:10px;color:#8890aa}
 
 .empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--muted);padding:60px;text-align:center}
 .empty-state.hidden{display:none}
@@ -245,7 +245,7 @@ generateBtn.addEventListener('click', () => {
         tr.innerHTML = `
           <td><span class="rank-badge">#${r.divRank}</span></td>
           <td><span class="team-num">${r.teamNumber}</span></td>
-          <td>${escHtml(r.teamName)}</td>
+          <td>${sanitiseName(r.teamName)}</td>
           <td><span class="score-cell">${r.score}</span></td>
           <td><span class="sub-cell">${r.auto}</span></td>
           <td><span class="sub-cell">${r.driver}</span></td>
@@ -325,13 +325,20 @@ function generatePDF(ranked, eventTitle, divisionName, divKey) {
   // ── Table ──
   const medal = { 1:[255,215,0], 2:[192,192,192], 3:[205,127,50] };
 
+  // Sanitise team names for PDF (jsPDF built-in fonts are latin-only)
+  function pdfName(s) {
+    const nonLatin = (s.match(/[^\x00-\x7F]/g) || []).length;
+    if (nonLatin > s.length * 0.4) return '[ ' + s.replace(/[^\x00-\x7F]/g, '') + ' ]'.trim() || '--------';
+    return s;
+  }
+
   doc.autoTable({
     startY: 40,
     margin: { left:14, right:14 },
     head: [['Div #','Global #','Score','Auto','Driver','Team #','Team Name','Country / Region']],
     body: ranked.map(r => [
       '#'+r.divRank, '#'+r.globalRank, r.score, r.auto, r.driver,
-      r.teamNumber, r.teamName, r.country
+      r.teamNumber, pdfName(r.teamName), r.country
     ]),
     styles: { fontSize:7.5, cellPadding:3, font:'helvetica', textColor:[26,26,46] },
     headStyles: { fillColor:[22,33,62], textColor:[255,255,255], fontSize:7.5, fontStyle:'bold', halign:'center' },
@@ -366,8 +373,24 @@ function generatePDF(ranked, eventTitle, divisionName, divKey) {
     }
   });
 
+  // No-score section in PDF
+  const noScoreTeams = RAW.divisions[divKey].teams.filter(t => !RAW.skills[t]);
+  if (noScoreTeams.length) {
+    const nsY = doc.lastAutoTable.finalY + 6;
+    doc.setDrawColor(220,220,238);
+    doc.setLineWidth(0.3);
+    doc.line(14, nsY, W-14, nsY);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(100,100,130);
+    doc.text(
+      \`No skills score recorded (\${noScoreTeams.length}): \${noScoreTeams.join(', ')}\`,
+      14, nsY+5
+    );
+  }
+
   // Footer note
-  const finalY = doc.lastAutoTable.finalY + 4;
+  const finalY = doc.lastAutoTable.finalY + (noScoreTeams.length ? 14 : 4);
   if (finalY < H - 20) {
     doc.setDrawColor(220,220,238);
     doc.setLineWidth(0.3);
@@ -384,6 +407,12 @@ function generatePDF(ranked, eventTitle, divisionName, divKey) {
   doc.save(`${divKey.toLowerCase()}-division-skills-ranking.pdf`);
 }
 
+function sanitiseName(s) {
+  // If string contains mostly non-latin characters, replace with em-dashes
+  const nonLatin = (s.match(/[^\x00-\x7F]/g) || []).length;
+  if (nonLatin > s.length * 0.4) return '<span style="color:var(--muted);letter-spacing:.1em">— — —</span>';
+  return escHtml(s);
+}
 function escHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
 </script>
 </body>
