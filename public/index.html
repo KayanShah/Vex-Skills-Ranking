@@ -1,478 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VEX Worlds 2026 · Skills Rankings</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VEX Worlds 2026 · Skills Rankings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0c14;--surface:#13141f;--border:#1e2030;
+  --accent:#e94560;--accent2:#4f8ef7;
+  --gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;
+  --text:#e8eaf0;--muted:#5a5f7a;
+  --font-head:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6}
+.shell{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
 
-    :root {
-      --bg:        #0b0c14;
-      --surface:   #13141f;
-      --border:    #1e2030;
-      --accent:    #e94560;
-      --accent2:   #4f8ef7;
-      --gold:      #ffd700;
-      --text:      #e8eaf0;
-      --muted:     #5a5f7a;
-      --font-head: 'Bebas Neue', sans-serif;
-      --font-body: 'DM Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-    }
+/* Header */
+header{padding:28px 40px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:18px}
+.logo-mark{width:44px;height:44px;background:var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:18px;color:#fff;flex-shrink:0}
+.header-text h1{font-family:var(--font-head);font-size:2.2rem;letter-spacing:.04em;line-height:1}
+.header-text h1 span{color:var(--accent)}
+.header-text p{font-size:11px;color:var(--muted);font-family:var(--font-mono);margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
 
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.6;
-    }
+/* Layout */
+main{display:grid;grid-template-columns:300px 1fr}
 
-    /* ── Layout ── */
-    .shell {
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
+/* Sidebar */
+.sidebar{border-right:1px solid var(--border);padding:28px 20px;display:flex;flex-direction:column;gap:20px}
+.sidebar-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.divisions{display:flex;flex-direction:column;gap:5px}
+.div-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:14px;font-weight:500;padding:11px 14px;text-align:left;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:all .15s ease;position:relative;overflow:hidden}
+.div-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transition:transform .15s ease;border-radius:0 2px 2px 0}
+.div-btn:hover{border-color:var(--accent);background:rgba(233,69,96,.06)}
+.div-btn:hover::before,.div-btn.active::before{transform:scaleY(1)}
+.div-btn.active{border-color:var(--accent);background:rgba(233,69,96,.1);color:#fff}
+.div-btn.disabled-div{opacity:.35;cursor:not-allowed;pointer-events:none}
+.div-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0}
+.div-badge{margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--muted);background:rgba(255,255,255,.05);padding:2px 6px;border-radius:4px}
+.div-btn.active .div-badge{color:var(--accent)}
 
-    /* ── Header ── */
-    header {
-      padding: 32px 40px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-end;
-      gap: 20px;
-    }
-    .logo-mark {
-      width: 48px; height: 48px;
-      background: var(--accent);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-head);
-      font-size: 20px;
-      color: white;
-      flex-shrink: 0;
-    }
-    .header-text {}
-    .header-text h1 {
-      font-family: var(--font-head);
-      font-size: 2.4rem;
-      letter-spacing: 0.04em;
-      line-height: 1;
-      color: var(--text);
-    }
-    .header-text h1 span { color: var(--accent); }
-    .header-text p {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      margin-top: 4px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
+.generate-btn{background:var(--accent);border:none;color:#fff;font-family:var(--font-head);font-size:1.15rem;letter-spacing:.08em;padding:13px 20px;border-radius:8px;cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;gap:10px}
+.generate-btn:hover:not(:disabled){background:#d63850;transform:translateY(-1px);box-shadow:0 6px 20px rgba(233,69,96,.35)}
+.generate-btn:disabled{opacity:.4;cursor:not-allowed}
+.generate-btn .spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.generate-btn.loading .spinner{display:block}
 
-    /* ── Main area ── */
-    main {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 0;
-    }
+.info-box{background:rgba(79,142,247,.07);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:13px;font-size:12px;color:#8aabef;line-height:1.65}
+.info-box strong{color:var(--accent2)}
 
-    /* ── Sidebar ── */
-    .sidebar {
-      border-right: 1px solid var(--border);
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    .sidebar-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
+/* Preview pane */
+.preview-pane{display:flex;flex-direction:column;background:#0d0e18;min-height:0}
+.preview-toolbar{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;min-height:48px;flex-shrink:0}
+.toolbar-label{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+.toolbar-label span{color:var(--text)}
+.download-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--font-body);font-size:13px;font-weight:600;padding:6px 14px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s ease}
+.download-btn:hover{background:var(--accent);color:#fff}
+.download-btn.hidden{display:none}
 
-    /* Division buttons */
-    .divisions {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .div-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 12px 16px;
-      text-align: left;
-      cursor: pointer;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: all 0.15s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .div-btn::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--accent);
-      transform: scaleY(0);
-      transition: transform 0.15s ease;
-      border-radius: 0 2px 2px 0;
-    }
-    .div-btn:hover {
-      border-color: var(--accent);
-      background: rgba(233,69,96,0.06);
-    }
-    .div-btn:hover::before { transform: scaleY(1); }
-    .div-btn.active {
-      border-color: var(--accent);
-      background: rgba(233,69,96,0.1);
-      color: white;
-    }
-    .div-btn.active::before { transform: scaleY(1); }
-    .div-icon {
-      font-size: 18px;
-      width: 28px;
-      text-align: center;
-      flex-shrink: 0;
-    }
+/* Table preview */
+.table-preview{flex:1;overflow-y:auto;padding:20px;display:none}
+.table-preview.visible{display:block}
+.preview-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.preview-table th{background:#16213e;color:#aab;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:9px 10px;text-align:left;position:sticky;top:0;z-index:1;border-bottom:2px solid var(--accent)}
+.preview-table th:first-child,.preview-table td:first-child{text-align:center}
+.preview-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.preview-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.preview-table tr:hover td{background:rgba(233,69,96,.06)}
+.rank-badge{font-family:var(--font-head);font-size:1rem;letter-spacing:.04em;color:var(--accent)}
+.rank-1 .rank-badge{color:var(--gold)}
+.rank-2 .rank-badge{color:var(--silver)}
+.rank-3 .rank-badge{color:var(--bronze)}
+.rank-1 td,.rank-2 td,.rank-3 td{background:rgba(255,255,255,.03) !important}
+.score-cell{font-family:var(--font-mono);font-weight:500;color:#e8eaf0}
+.sub-cell{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.team-num{font-family:var(--font-mono);font-size:12px;color:var(--accent2)}
+.global-rank{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.country-flag{font-size:10px;color:var(--muted)}
 
-    /* Generate button */
-    .generate-btn {
-      background: var(--accent);
-      border: none;
-      color: white;
-      font-family: var(--font-head);
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
-      padding: 14px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .generate-btn:hover:not(:disabled) {
-      background: #d63850;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(233,69,96,0.35);
-    }
-    .generate-btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-    .generate-btn .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: none;
-    }
-    .generate-btn.loading .spinner { display: block; }
-    .generate-btn.loading .btn-text { opacity: 0.7; }
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--muted);padding:60px;text-align:center}
+.empty-state.hidden{display:none}
+.empty-icon{font-size:52px;opacity:.25}
+.empty-state h2{font-family:var(--font-head);font-size:1.5rem;letter-spacing:.05em;color:var(--muted)}
+.empty-state p{font-size:13px;max-width:300px;line-height:1.7}
 
-    /* Info box */
-    .info-box {
-      background: rgba(79,142,247,0.07);
-      border: 1px solid rgba(79,142,247,0.2);
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 12.5px;
-      color: #8aabef;
-      line-height: 1.6;
-    }
-    .info-box strong { color: var(--accent2); }
+.error-banner{margin:16px;padding:13px 16px;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.3);border-radius:8px;color:#f08090;font-size:13px;display:none}
+.error-banner.visible{display:block}
 
-    /* ── Preview pane ── */
-    .preview-pane {
-      display: flex;
-      flex-direction: column;
-      background: #0d0e18;
-    }
-    .preview-toolbar {
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 52px;
-    }
-    .preview-toolbar-left {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-    .preview-toolbar-left span {
-      color: var(--text);
-      font-weight: 500;
-    }
-    .download-btn {
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.15s ease;
-    }
-    .download-btn:hover {
-      background: var(--accent);
-      color: white;
-    }
-    .download-btn.hidden { display: none; }
+/* Footer */
+footer{padding:12px 40px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--font-mono)}
 
-    /* iframe / empty state */
-    .preview-frame {
-      flex: 1;
-      width: 100%;
-      border: none;
-      display: none;
-    }
-    .preview-frame.visible { display: block; }
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      color: var(--muted);
-      padding: 60px;
-    }
-    .empty-state.hidden { display: none; }
-    .empty-icon {
-      font-size: 56px;
-      opacity: 0.3;
-    }
-    .empty-state h2 {
-      font-family: var(--font-head);
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-    }
-    .empty-state p {
-      font-size: 13px;
-      text-align: center;
-      max-width: 320px;
-      line-height: 1.7;
-    }
-
-    .error-banner {
-      margin: 20px;
-      padding: 14px 18px;
-      background: rgba(233,69,96,0.1);
-      border: 1px solid rgba(233,69,96,0.3);
-      border-radius: 8px;
-      color: #f08090;
-      font-size: 13px;
-      display: none;
-    }
-    .error-banner.visible { display: block; }
-
-    /* ── Footer ── */
-    footer {
-      padding: 14px 40px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Responsive ── */
-    @media (max-width: 720px) {
-      main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
-      .divisions { flex-direction: row; flex-wrap: wrap; }
-      .div-btn { flex: 1 1 calc(50% - 6px); }
-      header { padding: 20px; }
-      footer { flex-direction: column; gap: 4px; text-align: center; }
-    }
-  </style>
+@media(max-width:700px){
+  main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .sidebar{border-right:none;border-bottom:1px solid var(--border)}
+  header{padding:16px 20px}
+  footer{flex-direction:column;gap:4px;text-align:center}
+}
+</style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- Header -->
-  <header>
-    <div class="logo-mark">V</div>
-    <div class="header-text">
-      <h1>VEX WORLDS <span>2026</span></h1>
-      <p>Middle School · Skills Rankings Generator · HABS Gliders</p>
+<header>
+  <div class="logo-mark">V</div>
+  <div class="header-text">
+    <h1>VEX WORLDS <span>2026</span></h1>
+    <p>Middle School · Skills Rankings · HABS Gliders 34071B</p>
+  </div>
+</header>
+
+<main>
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-label">Select Division</div>
+      <div class="divisions" id="divisionList">
+        <button class="div-btn" data-division="Arts"><span class="div-icon">🎨</span>Arts<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Engineering"><span class="div-icon">⚙️</span>Engineering<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Innovate"><span class="div-icon">💡</span>Innovate<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Math"><span class="div-icon">📐</span>Math<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Science"><span class="div-icon">🔬</span>Science<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Spirit"><span class="div-icon">🏆</span>Spirit<span class="div-badge">–</span></button>
+        <button class="div-btn" data-division="Technology"><span class="div-icon">🤖</span>Technology<span class="div-badge">–</span></button>
+      </div>
     </div>
-  </header>
 
-  <!-- Main -->
-  <main>
+    <button class="generate-btn" id="generateBtn" disabled>
+      <div class="spinner"></div>
+      <span>GENERATE PDF</span>
+    </button>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div>
-        <div class="sidebar-label">Select Division</div>
-        <div class="divisions" id="divisionList">
-          <button class="div-btn" data-division="Arts">
-            <span class="div-icon">🎨</span> Arts
-          </button>
-          <button class="div-btn" data-division="Engineering">
-            <span class="div-icon">⚙️</span> Engineering
-          </button>
-          <button class="div-btn" data-division="Innovate">
-            <span class="div-icon">💡</span> Innovate
-          </button>
-          <button class="div-btn" data-division="Math">
-            <span class="div-icon">📐</span> Math
-          </button>
-          <button class="div-btn" data-division="Science">
-            <span class="div-icon">🔬</span> Science
-          </button>
-          <button class="div-btn" data-division="Spirit">
-            <span class="div-icon">🏆</span> Spirit
-          </button>
-          <button class="div-btn" data-division="Technology">
-            <span class="div-icon">🤖</span> Technology
-          </button>
-        </div>
-      </div>
+    <div class="info-box">
+      <strong>How it works:</strong><br/>
+      Pick a division, preview the rankings table, then download the formatted PDF.
+      Scores are ranked highest first — ties broken by global skills rank.
+    </div>
+  </aside>
 
-      <button class="generate-btn" id="generateBtn" disabled>
-        <div class="spinner"></div>
-        <span class="btn-text">GENERATE PDF</span>
-      </button>
+  <section class="preview-pane">
+    <div class="preview-toolbar">
+      <div class="toolbar-label" id="toolbarLabel">NO DIVISION SELECTED</div>
+      <button class="download-btn hidden" id="downloadBtn">⬇ Download PDF</button>
+    </div>
+    <div class="error-banner" id="errorBanner"></div>
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">📋</div>
+      <h2>No Preview Yet</h2>
+      <p>Choose a division and click Generate to build the skills ranking.</p>
+    </div>
+    <div class="table-preview" id="tablePreview">
+      <table class="preview-table" id="previewTable">
+        <thead><tr>
+          <th>Div #</th><th>Team</th><th>Team Name</th>
+          <th>Score</th><th>Auto</th><th>Driver</th>
+          <th>Global #</th><th>Country</th>
+        </tr></thead>
+        <tbody id="previewBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
 
-      <div class="info-box">
-        <strong>How it works:</strong><br />
-        Select a division above, then hit Generate. The PDF is built live by
-        cross-referencing the division team list against the global skills
-        standings — ranked by score, with ties broken by global rank.
-      </div>
-    </aside>
-
-    <!-- Preview -->
-    <section class="preview-pane">
-      <div class="preview-toolbar">
-        <div class="preview-toolbar-left" id="toolbarLabel">
-          NO DIVISION SELECTED
-        </div>
-        <a class="download-btn hidden" id="downloadBtn" download>
-          ⬇ Download PDF
-        </a>
-      </div>
-
-      <div class="error-banner" id="errorBanner"></div>
-
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon">📋</div>
-        <h2>No Preview Yet</h2>
-        <p>Choose a division from the left and click Generate to build your skills ranking PDF.</p>
-      </div>
-
-      <iframe class="preview-frame" id="previewFrame" title="PDF Preview"></iframe>
-    </section>
-
-  </main>
-
-  <footer>
-    <span>HABS Gliders · 34071B · VEX Robotics World Championship 2026</span>
-    <span>Skills data updated via GitHub push → Vercel redeploy</span>
-  </footer>
+<footer>
+  <span>HABS Gliders · 34071B · VEX Robotics World Championship 2026</span>
+  <span>Push skills-standings.csv to GitHub to update data</span>
+</footer>
 
 </div>
 
 <script>
-  let selected = null;
-  let currentObjectURL = null;
+const RAW = {"divisions":{"Math":{"eventTitle":"2026 VEX Robotics World Championship","divisionName":"Math Division","teams":["38X","316H","587V","886E","938N","1067A","1262E","1388W","1698A","1920D","2037C","2145W","2429A","2616C","2899A","3102A","3219C","3440C","3609X","4082A","4611S","4886B","6122C","6972A","7481E","7831Y","8223Z","8686N","8838D","9050E","9185B","9568G","9773C","10017A","10385B","11102A","12350X","13455A","15167A","16688A","17711V","18279A","18960A","20315A","20850V","23382C","24500A","26003A","27908V","29651J","31001A","34071B","38247E","39702G","40994E","44036E","47126A","50638A","51191E","52710A","54474X","57152C","58676F","61542P","63724A","65404E","66722Y","68678M","70699D","72202Z","74757J","76275D","77727H","79163M","79298X","80088B","83561A","88077A","88825H","90677A","93303G","96789S","98992C","99209X"]}},"skills":{"88825H":{"globalRank":9,"score":182,"auto":91,"driver":91,"teamName":"ROACH","country":"China"},"2429A":{"globalRank":10,"score":182,"auto":85,"driver":97,"teamName":"Blockbot - Radiant","country":"United States"},"8838D":{"globalRank":15,"score":178,"auto":75,"driver":103,"teamName":"Robohawks - Amirite","country":"United States"},"16688A":{"globalRank":30,"score":167,"auto":70,"driver":97,"teamName":"Blue See 123","country":"Canada"},"1698A":{"globalRank":31,"score":166,"auto":84,"driver":82,"teamName":"Limited Edition","country":"United States"},"2899A":{"globalRank":33,"score":166,"auto":78,"driver":88,"teamName":"Shooting Stars","country":"United States"},"68678M":{"globalRank":39,"score":164,"auto":84,"driver":80,"teamName":"HAPPY HIPPO","country":"Taiwan"},"40994E":{"globalRank":44,"score":159,"auto":75,"driver":84,"teamName":"Obsidian Outlaws","country":"United States"},"15167A":{"globalRank":68,"score":145,"auto":62,"driver":83,"teamName":"SWITCH","country":"Vietnam"},"79298X":{"globalRank":98,"score":137,"auto":56,"driver":81,"teamName":"Nexus","country":"United States"},"9568G":{"globalRank":110,"score":133,"auto":60,"driver":73,"teamName":"floor(5\u00d710^-12 \u00b7 G(10^3(\u03b7 + 1))) + 99","country":"Canada"},"886E":{"globalRank":125,"score":130,"auto":47,"driver":83,"teamName":"Excel | WPRA","country":"Canada"},"20850V":{"globalRank":126,"score":129,"auto":49,"driver":80,"teamName":"Octobots","country":"United States"},"24500A":{"globalRank":137,"score":125,"auto":48,"driver":77,"teamName":"CCRMS Lions","country":"United States"},"77727H":{"globalRank":160,"score":119,"auto":39,"driver":80,"teamName":"Home-field Advantage","country":"United States"},"8223Z":{"globalRank":163,"score":118,"auto":57,"driver":61,"teamName":"Team 8223Z of Beijing No.80 Middle School","country":"China"},"938N":{"globalRank":165,"score":118,"auto":51,"driver":67,"teamName":"Blaze Nutter Butter","country":"United States"},"17711V":{"globalRank":181,"score":114,"auto":44,"driver":70,"teamName":"Vector","country":"United Kingdom"},"99209X":{"globalRank":222,"score":105,"auto":40,"driver":65,"teamName":"Refract","country":"United States"},"72202Z":{"globalRank":223,"score":105,"auto":20,"driver":85,"teamName":"QSE Robotics","country":"United States"},"90677A":{"globalRank":235,"score":103,"auto":21,"driver":82,"teamName":"Omg","country":"China"},"54474X":{"globalRank":240,"score":102,"auto":31,"driver":71,"teamName":"Spicy Pepper","country":"United States"},"74757J":{"globalRank":247,"score":101,"auto":32,"driver":69,"teamName":"Mythri - Jades","country":"United States"},"23382C":{"globalRank":298,"score":92,"auto":20,"driver":72,"teamName":"Fifth Dimension","country":"United States"},"4886B":{"globalRank":316,"score":90,"auto":15,"driver":75,"teamName":"Bep\u00e9","country":"United States"},"65404E":{"globalRank":341,"score":86,"auto":21,"driver":65,"teamName":"SAS - Enigma","country":"Singapore"},"9773C":{"globalRank":356,"score":84,"auto":31,"driver":53,"teamName":"Phaze","country":"United States"},"61542P":{"globalRank":378,"score":81,"auto":29,"driver":52,"teamName":"Techno Trash Pandas","country":"United States"},"27908V":{"globalRank":391,"score":80,"auto":28,"driver":52,"teamName":"LSTS SINGULARITY","country":"Vietnam"},"26003A":{"globalRank":396,"score":80,"auto":15,"driver":65,"teamName":"Lil' George","country":"United States"},"10017A":{"globalRank":423,"score":77,"auto":41,"driver":36,"teamName":"\u4e2d\u56fd\u676d\u5dde\u4f4e\u78b3\u79d1\u6280\u9986","country":"China"},"38X":{"globalRank":439,"score":76,"auto":15,"driver":61,"teamName":"Absolute Zero","country":"United States"},"1388W":{"globalRank":454,"score":74,"auto":40,"driver":34,"teamName":"\u91cd\u5e86\u5357\u5f00\uff08\u878d\u4fa8\uff09\u4e2d\u5b66\u6821","country":"China"},"18279A":{"globalRank":457,"score":74,"auto":11,"driver":63,"teamName":"Get Back 2 Work","country":"United States"},"96789S":{"globalRank":474,"score":73,"auto":15,"driver":58,"teamName":"Mecha Force","country":"United States"},"88077A":{"globalRank":490,"score":72,"auto":15,"driver":57,"teamName":"FutureTech","country":"United States"},"47126A":{"globalRank":496,"score":71,"auto":15,"driver":56,"teamName":"I Can't Say It Out Loud","country":"United States"},"83561A":{"globalRank":501,"score":70,"auto":27,"driver":43,"teamName":"Clovers","country":"United States"},"9185B":{"globalRank":508,"score":70,"auto":20,"driver":50,"teamName":"Banana Boys","country":"United States"},"2145W":{"globalRank":513,"score":70,"auto":13,"driver":57,"teamName":"Pink Squishee Unicorns","country":"United States"},"66722Y":{"globalRank":533,"score":68,"auto":15,"driver":53,"teamName":"Operation Yeti","country":"United States"},"57152C":{"globalRank":542,"score":67,"auto":20,"driver":47,"teamName":"Kilauea","country":"United States"},"38247E":{"globalRank":543,"score":67,"auto":20,"driver":47,"teamName":"Teletuff Rockers","country":"United States"},"4611S":{"globalRank":557,"score":66,"auto":15,"driver":51,"teamName":"5 Step : Robot Rev","country":"United States"},"3609X":{"globalRank":559,"score":66,"auto":20,"driver":46,"teamName":"Pickpocket Pandas","country":"United States"},"12350X":{"globalRank":562,"score":66,"auto":15,"driver":51,"teamName":"X-Bots","country":"United States"},"3102A":{"globalRank":563,"score":66,"auto":12,"driver":54,"teamName":"SpaceY","country":"Hong Kong"},"3219C":{"globalRank":564,"score":66,"auto":0,"driver":66,"teamName":"Galactus","country":"China"},"13455A":{"globalRank":578,"score":65,"auto":15,"driver":50,"teamName":"Marce Herz Team #1: Tahoe Falcons","country":"United States"},"4082A":{"globalRank":588,"score":64,"auto":15,"driver":49,"teamName":"Rocket Robots","country":"United States"},"29651J":{"globalRank":631,"score":61,"auto":20,"driver":41,"teamName":"Techno Jays","country":"United States"},"98992C":{"globalRank":636,"score":61,"auto":15,"driver":46,"teamName":"Complete Control","country":"United States"},"587V":{"globalRank":651,"score":60,"auto":20,"driver":40,"teamName":"Vulcanoes","country":"United States"},"7481E":{"globalRank":656,"score":60,"auto":11,"driver":49,"teamName":"Eclipse","country":"United States"},"2616C":{"globalRank":680,"score":59,"auto":15,"driver":44,"teamName":"Cosmic","country":"United States"},"39702G":{"globalRank":740,"score":56,"auto":15,"driver":41,"teamName":"New Hope Robotics","country":"United States"},"6122C":{"globalRank":777,"score":55,"auto":15,"driver":40,"teamName":"Bread Enthusiasts","country":"United States"},"44036E":{"globalRank":799,"score":53,"auto":15,"driver":38,"teamName":"High VEXpectations","country":"United States"},"63724A":{"globalRank":814,"score":53,"auto":15,"driver":38,"teamName":"University School Sharks Robotics","country":"United States"},"20315A":{"globalRank":816,"score":53,"auto":15,"driver":38,"teamName":"Marcelline A","country":"Canada"},"51191E":{"globalRank":824,"score":52,"auto":22,"driver":30,"teamName":"Wired Warriors","country":"United States"},"1920D":{"globalRank":861,"score":51,"auto":20,"driver":31,"teamName":"The DOOM Kirby's","country":"United States"},"9050E":{"globalRank":871,"score":51,"auto":15,"driver":36,"teamName":"Galaxy","country":"United States"},"93303G":{"globalRank":890,"score":50,"auto":19,"driver":31,"teamName":"Hippopotomonstrosesquippedaliophobia","country":"United States"},"11102A":{"globalRank":904,"score":50,"auto":15,"driver":35,"teamName":"IMAI Robotics","country":"Japan"},"80088B":{"globalRank":909,"score":50,"auto":0,"driver":50,"teamName":"DFD-B","country":"China"},"7831Y":{"globalRank":967,"score":48,"auto":15,"driver":33,"teamName":"Kinetic Collision","country":"United States"},"31001A":{"globalRank":975,"score":47,"auto":20,"driver":27,"teamName":"Team Ducky","country":"United States"},"8686N":{"globalRank":1050,"score":45,"auto":20,"driver":25,"teamName":"Ninja Turtles","country":"United States"},"58676F":{"globalRank":1070,"score":45,"auto":16,"driver":29,"teamName":"Corsaires Fire Express","country":"Canada"},"70699D":{"globalRank":1155,"score":43,"auto":15,"driver":28,"teamName":"Wolverine Robotics","country":"United States"},"6972A":{"globalRank":1201,"score":42,"auto":15,"driver":27,"teamName":"Frankenstein Complex","country":"United States"},"34071B":{"globalRank":1218,"score":41,"auto":15,"driver":26,"teamName":"HABS-Gliders","country":"United Kingdom"},"79163M":{"globalRank":1267,"score":40,"auto":20,"driver":20,"teamName":"Grouchy Gators","country":"United States"},"1067A":{"globalRank":1316,"score":40,"auto":15,"driver":25,"teamName":"OPS - Atoms Can't Touch","country":"United States"},"316H":{"globalRank":1366,"score":39,"auto":15,"driver":24,"teamName":"Hawaii Girl Power","country":"United States"},"2037C":{"globalRank":1388,"score":38,"auto":16,"driver":22,"teamName":"Dragon Robotics","country":"United States"},"1262E":{"globalRank":1489,"score":36,"auto":15,"driver":21,"teamName":"OPS - The Two Brain Cells","country":"United States"},"3440C":{"globalRank":1495,"score":36,"auto":15,"driver":21,"teamName":"CheeseBurger","country":"United States"},"50638A":{"globalRank":1725,"score":31,"auto":0,"driver":31,"teamName":"NeoMustangs","country":"United States"},"10385B":{"globalRank":1727,"score":31,"auto":0,"driver":31,"teamName":"Cycle-Breakers","country":"United States"},"18960A":{"globalRank":1847,"score":29,"auto":0,"driver":29,"teamName":"JL.S.S.E","country":"China"},"76275D":{"globalRank":1901,"score":26,"auto":0,"driver":26,"teamName":"HARROW","country":"Hong Kong"}}};
 
-  const generateBtn = document.getElementById('generateBtn');
-  const previewFrame = document.getElementById('previewFrame');
-  const emptyState   = document.getElementById('emptyState');
-  const errorBanner  = document.getElementById('errorBanner');
-  const downloadBtn  = document.getElementById('downloadBtn');
-  const toolbarLabel = document.getElementById('toolbarLabel');
+// Mark which divisions have data
+const DIVISIONS_WITH_DATA = Object.keys(RAW.divisions);
+document.querySelectorAll('.div-btn').forEach(btn => {
+  const div = btn.dataset.division;
+  const badge = btn.querySelector('.div-badge');
+  if (DIVISIONS_WITH_DATA.includes(div)) {
+    const teams = RAW.divisions[div].teams;
+    const matched = teams.filter(t => RAW.skills[t]).length;
+    badge.textContent = matched + ' teams';
+  } else {
+    btn.classList.add('disabled-div');
+    badge.textContent = 'soon';
+  }
+});
 
-  // Division selection
-  document.getElementById('divisionList').addEventListener('click', e => {
-    const btn = e.target.closest('.div-btn');
-    if (!btn) return;
-    document.querySelectorAll('.div-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selected = btn.dataset.division;
-    generateBtn.disabled = false;
-    toolbarLabel.innerHTML = `DIVISION / <span>${selected.toUpperCase()}</span>`;
-  });
+let selected = null;
+let currentRanked = [];
 
-  // Generate
-  generateBtn.addEventListener('click', async () => {
-    if (!selected) return;
+const generateBtn = document.getElementById('generateBtn');
+const tablePreview = document.getElementById('tablePreview');
+const previewBody  = document.getElementById('previewBody');
+const emptyState   = document.getElementById('emptyState');
+const errorBanner  = document.getElementById('errorBanner');
+const downloadBtn  = document.getElementById('downloadBtn');
+const toolbarLabel = document.getElementById('toolbarLabel');
 
-    // Reset UI
-    generateBtn.disabled = true;
-    generateBtn.classList.add('loading');
-    errorBanner.classList.remove('visible');
-    previewFrame.classList.remove('visible');
-    emptyState.classList.remove('hidden');
-    downloadBtn.classList.add('hidden');
-    if (currentObjectURL) { URL.revokeObjectURL(currentObjectURL); currentObjectURL = null; }
+document.getElementById('divisionList').addEventListener('click', e => {
+  const btn = e.target.closest('.div-btn');
+  if (!btn || btn.classList.contains('disabled-div')) return;
+  document.querySelectorAll('.div-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selected = btn.dataset.division;
+  generateBtn.disabled = false;
+  toolbarLabel.innerHTML = `DIVISION / <span>${selected.toUpperCase()}</span>`;
+  // Reset preview
+  tablePreview.classList.remove('visible');
+  emptyState.classList.remove('hidden');
+  downloadBtn.classList.add('hidden');
+  errorBanner.classList.remove('visible');
+});
 
+generateBtn.addEventListener('click', () => {
+  if (!selected || !RAW.divisions[selected]) return;
+  generateBtn.classList.add('loading');
+  generateBtn.disabled = true;
+
+  setTimeout(() => {
     try {
-      const res = await fetch(`/api/generate?division=${selected}`);
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(err.error || `HTTP ${res.status}`);
+      const { teams, divisionName, eventTitle } = RAW.divisions[selected];
+      const ranked = [];
+      const noScore = [];
+      for (const t of teams) {
+        if (RAW.skills[t]) ranked.push({ teamNumber: t, ...RAW.skills[t] });
+        else noScore.push(t);
+      }
+      ranked.sort((a,b) => b.score - a.score || a.globalRank - b.globalRank);
+      ranked.forEach((r,i) => r.divRank = i+1);
+      currentRanked = ranked;
+
+      // Build table
+      previewBody.innerHTML = '';
+      for (const r of ranked) {
+        const tr = document.createElement('tr');
+        tr.className = `rank-${r.divRank}`;
+        tr.innerHTML = `
+          <td><span class="rank-badge">#${r.divRank}</span></td>
+          <td><span class="team-num">${r.teamNumber}</span></td>
+          <td>${escHtml(r.teamName)}</td>
+          <td><span class="score-cell">${r.score}</span></td>
+          <td><span class="sub-cell">${r.auto}</span></td>
+          <td><span class="sub-cell">${r.driver}</span></td>
+          <td><span class="global-rank">#${r.globalRank}</span></td>
+          <td><span class="country-flag">${escHtml(r.country)}</span></td>
+        `;
+        previewBody.appendChild(tr);
       }
 
-      const blob = await res.blob();
-      currentObjectURL = URL.createObjectURL(blob);
-      const filename = `${selected.toLowerCase()}-division-skills-ranking.pdf`;
-
-      previewFrame.src = currentObjectURL;
-      previewFrame.classList.add('visible');
+      tablePreview.classList.add('visible');
       emptyState.classList.add('hidden');
-
-      downloadBtn.href = currentObjectURL;
-      downloadBtn.download = filename;
+      errorBanner.classList.remove('visible');
       downloadBtn.classList.remove('hidden');
-
-      toolbarLabel.innerHTML = `DIVISION / <span>${selected.toUpperCase()}</span> · PDF READY`;
-
-    } catch (err) {
-      errorBanner.textContent = `Error: ${err.message}`;
+      toolbarLabel.innerHTML = `DIVISION / <span>${selected.toUpperCase()}</span> · ${ranked.length} TEAMS RANKED`;
+    } catch(e) {
+      errorBanner.textContent = 'Error: ' + e.message;
       errorBanner.classList.add('visible');
-      emptyState.classList.remove('hidden');
-    } finally {
-      generateBtn.classList.remove('loading');
-      generateBtn.disabled = false;
+    }
+    generateBtn.classList.remove('loading');
+    generateBtn.disabled = false;
+  }, 50);
+});
+
+downloadBtn.addEventListener('click', () => {
+  if (!currentRanked.length || !selected) return;
+  const { divisionName, eventTitle } = RAW.divisions[selected];
+  generatePDF(currentRanked, eventTitle, divisionName, selected);
+});
+
+function generatePDF(ranked, eventTitle, divisionName, divKey) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210, H = 297;
+
+  // ── Banner ──
+  doc.setFillColor(26, 26, 46);
+  doc.rect(0, 0, W, 36, 'F');
+
+  // Top bar
+  doc.setFillColor(233, 69, 96);
+  doc.rect(0, 0, W, 2, 'F');
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(170, 170, 200);
+  doc.text(eventTitle, W/2, 10, { align:'center' });
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(255, 255, 255);
+  doc.text(divisionName, W/2, 20, { align:'center' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(170, 170, 200);
+  doc.text('Skills Rankings', W/2, 27, { align:'center' });
+
+  const noScoreCount = RAW.divisions[divKey].teams.length - ranked.length;
+  doc.text(`${ranked.length} teams ranked · ${noScoreCount} team${noScoreCount!==1?'s':''} with no skills score recorded`, W/2, 33, { align:'center' });
+
+  // ── Table ──
+  const medal = { 1:[255,215,0], 2:[192,192,192], 3:[205,127,50] };
+
+  doc.autoTable({
+    startY: 40,
+    margin: { left:14, right:14 },
+    head: [['Div #','Global #','Score','Auto','Driver','Team #','Team Name','Country / Region']],
+    body: ranked.map(r => [
+      '#'+r.divRank, '#'+r.globalRank, r.score, r.auto, r.driver,
+      r.teamNumber, r.teamName, r.country
+    ]),
+    styles: { fontSize:7.5, cellPadding:3, font:'helvetica', textColor:[26,26,46] },
+    headStyles: { fillColor:[22,33,62], textColor:[255,255,255], fontSize:7.5, fontStyle:'bold', halign:'center' },
+    columnStyles: {
+      0:{halign:'center',fontStyle:'bold',textColor:[204,0,0]},
+      1:{halign:'center'},2:{halign:'center'},
+      3:{halign:'center'},4:{halign:'center'},5:{halign:'center'}
+    },
+    alternateRowStyles: { fillColor:[245,247,250] },
+    didParseCell(data) {
+      if (data.section==='body') {
+        const rank = ranked[data.row.index]?.divRank;
+        if (medal[rank]) {
+          data.cell.styles.fillColor = medal[rank];
+          data.cell.styles.textColor = [26,26,46];
+          if (data.column.index===0) data.cell.styles.fontStyle='bold';
+        }
+      }
+    },
+    didDrawPage(data) {
+      // Footer
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(7);
+      doc.setTextColor(100,100,130);
+      doc.text(
+        `Page ${data.pageNumber} · ${divisionName} Skills Rankings · HABS Gliders Scouting`,
+        W-14, H-8, { align:'right' }
+      );
+      // Top bar on continuation pages
+      doc.setFillColor(26,26,46);
+      doc.rect(0,0,W,2,'F');
     }
   });
+
+  // Footer note
+  const finalY = doc.lastAutoTable.finalY + 4;
+  if (finalY < H - 20) {
+    doc.setDrawColor(220,220,238);
+    doc.setLineWidth(0.3);
+    doc.line(14, finalY, W-14, finalY);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7);
+    doc.setTextColor(100,100,130);
+    doc.text(
+      'Generated from official VEX Robotics global skills standings · Auto = Autonomous Coding Skills · Ranked by Score (desc), Global Rank (asc) on ties',
+      14, finalY+5
+    );
+  }
+
+  doc.save(`${divKey.toLowerCase()}-division-skills-ranking.pdf`);
+}
+
+function escHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
 </script>
 </body>
 </html>
