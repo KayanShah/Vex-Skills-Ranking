@@ -203,7 +203,10 @@ document.getElementById('divisionList').addEventListener('click', function(e) {
   btn.classList.add('active');
   selected = btn.dataset.division;
   generateBtn.disabled = false;
-  toolbarLabel.innerHTML = 'DIVISION / <span>' + selected.toUpperCase() + '</span>';
+  var divInfo = RAW.divisions[selected];
+  var total = divInfo ? divInfo.teams.length : 0;
+  var ranked_count = divInfo ? divInfo.teams.filter(function(t){ return RAW.skills[t]; }).length : 0;
+  toolbarLabel.innerHTML = 'DIVISION / <span>' + selected.toUpperCase() + '</span> · ' + total + ' TEAMS FOUND · ' + ranked_count + ' RANKED';
   tableWrap.classList.remove('visible');
   emptyState.classList.remove('hidden');
   downloadBtn.classList.add('hidden');
@@ -269,7 +272,7 @@ generateBtn.addEventListener('click', function() {
       emptyState.classList.add('hidden');
       errorBanner.classList.remove('visible');
       downloadBtn.classList.remove('hidden');
-      toolbarLabel.innerHTML = 'DIVISION / <span>' + selected.toUpperCase() + '</span> · ' + ranked.length + ' TEAMS RANKED';
+      toolbarLabel.innerHTML = 'DIVISION / <span>' + selected.toUpperCase() + '</span> · ' + info.teams.length + ' TEAMS FOUND · ' + ranked.length + ' RANKED';
     } catch(err) {
       errorBanner.textContent = 'Error: ' + err.message;
       errorBanner.classList.add('visible');
