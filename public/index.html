@@ -255,6 +255,23 @@ generateBtn.addEventListener('click', () => {
         previewBody.appendChild(tr);
       }
 
+      // No-score rows
+      if (noScore.length) {
+        const spacer = document.createElement('tr');
+        spacer.innerHTML = `<td colspan="8" style="padding:16px 10px 6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-top:2px solid var(--border);background:transparent">No Skills Score Recorded (${noScore.length} team${noScore.length!==1?'s':''})</td>`;
+        previewBody.appendChild(spacer);
+        for (const t of noScore) {
+          const tr = document.createElement('tr');
+          tr.style.opacity = '0.45';
+          tr.innerHTML = `
+            <td style="text-align:center"><span style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">—</span></td>
+            <td><span class="team-num">${t}</span></td>
+            <td colspan="6" style="font-size:12px;color:var(--muted);font-style:italic">No skills score on record</td>
+          `;
+          previewBody.appendChild(tr);
+        }
+      }
+
       tablePreview.classList.add('visible');
       emptyState.classList.add('hidden');
       errorBanner.classList.remove('visible');
