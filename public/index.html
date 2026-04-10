@@ -327,7 +327,7 @@ function generatePDF(ranked, eventTitle, divisionName, divKey) {
 
   // Sanitise team names for PDF (jsPDF built-in fonts are latin-only)
   function pdfName(s) {
-    const nonLatin = (s.match(/[^\x00-\x7F]/g) || []).length;
+    const nonLatin = (s.match(/[^\u0000-\u007F]/g) || []).length;
     if (nonLatin > s.length * 0.4) return '[ ' + s.replace(/[^\x00-\x7F]/g, '') + ' ]'.trim() || '--------';
     return s;
   }
@@ -408,9 +408,8 @@ function generatePDF(ranked, eventTitle, divisionName, divKey) {
 }
 
 function sanitiseName(s) {
-  // If string contains mostly non-latin characters, replace with em-dashes
-  const nonLatin = (s.match(/[^\x00-\x7F]/g) || []).length;
-  if (nonLatin > s.length * 0.4) return '<span style="color:var(--muted);letter-spacing:.1em">— — —</span>';
+  const nonLatin = (s.match(/[^\u0000-\u007F]/g) || []).length;
+  if (nonLatin > s.length * 0.4) return '<span style="color:#5a5f7a;letter-spacing:.1em">--------</span>';
   return escHtml(s);
 }
 function escHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
