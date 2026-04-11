@@ -20,7 +20,7 @@ Built by [Kayan Shah](https://github.com/KayanShah), Team Leader · **HABS Glide
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-vex--skills--ranking.vercel.app-e94560?style=for-the-badge&logo=vercel&logoColor=white)](https://vex-skills-ranking.vercel.app)
 [![VEX Worlds 2026](https://img.shields.io/badge/VEX%20Worlds-2026%20Missouri-4f8ef7?style=for-the-badge)](https://www.roboticseducation.org/vex-robotics-world-championship/)
-[![Team](https://img.shields.io/badge/Team-34071B%20HABS%20Gliders-ffd700?style=for-the-badge)](https://www.robotevents.com/teams/V5RC/34071B)
+[![Team](https://img.shields.io/badge/Team-34071B%20HABS%20Gliders-ffd700?style=for-the-badge)](https://habs-gliders-34071b.vercel.app)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
 <br/>
