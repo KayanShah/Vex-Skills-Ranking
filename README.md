@@ -129,7 +129,7 @@ Each PDF includes:
 - **Dark navy banner** with HABS Gliders logos on both sides, event title, division name, and team count
 - **Full ranked table** with Div #, Global #, Score, Auto, Driver, Team #, Team Name, Country
 - **Medal row highlights** — gold / silver / bronze for the top 3
-- **Per-page footer** on every page: page number · division label · *[Kayan Shah](https://github.com/KayanShah)* (clickable hyperlink) · HABS Gliders Scouting
+- **Per-page footer** on every page: page number · division label · *[Kayan Shah](https://github.com/KayanShah)* · HABS Gliders Scouting
 - **End block** — centred logo, team name, clickable author credit
 - **No-score section** listing any teams with no skills data
 - **Timestamp footer** — data freshness note + ranking methodology
