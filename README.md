@@ -195,7 +195,7 @@ python3 -m http.server 8080
 
 Built as a scouting tool for **[HABS Gliders 34071B](https://habs-gliders-34071b.vercel.app)** ahead of the 2026 VEX Robotics World Championship in Missouri.
 
-HABS Gliders qualified for Worlds in their first competitive season, reaching the International Finals of the Greenpower Electric Car Challenge and ranking **#11 globally** in the VEX Virtual Skills programme.
+HABS Gliders qualified for Worlds in their first season, ranking **#11 globally** in the VEX Virtual Skills programme.
 
 ---
 
