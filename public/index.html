@@ -12,7 +12,7 @@
 /* ── Reset & Variables ─────────────────────────────────────────────────────── */
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg:        #999999;
+  --bg:        #0b0c14;
   --surface:   #13141f;
   --border:    #1e2030;
   --accent:    #e94560;
@@ -311,7 +311,7 @@ for (var bi = 0; bi < allDivKeys.length; bi++) {
   var bk = allDivKeys[bi];
   var badge = document.getElementById('badge-' + bk);
   if (badge && RAW.divisions[bk]) {
-    var bm = RAW.divisions[bk].teams.filter(function(t) { return RAW.skills[t]; }).length;
+    var bm = RAW.divisions[bk].teams.length;
     badge.textContent = bm + ' teams';
   }
 }
