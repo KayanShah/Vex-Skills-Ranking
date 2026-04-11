@@ -31,6 +31,20 @@ Built by [Kayan Shah](https://github.com/KayanShah), Team Leader · **HABS Glide
 
 ---
 
+## ✦ License
+
+This project is licensed under the **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)** licence.
+
+You are free to use, modify, and distribute this project — including commercially — provided that you:
+
+- **Credit the author** — Kayan Shah
+- **Link to the source** — [github.com/KayanShah](https://github.com/KayanShah)
+- **Indicate if changes were made**
+
+> © 2026 Kayan Shah · [github.com/KayanShah](https://github.com/KayanShah)
+
+---
+
 ## ✦ What is this?
 
 A fast, fully client-side scouting web app for the **2026 VEX Robotics World Championship** (Middle School). It lets you instantly preview and download beautifully formatted **skills standings PDFs** for any of the 7 competition divisions — or the entire Worlds field at once.
