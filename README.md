@@ -14,7 +14,7 @@
 # VEX Worlds 2026 · Skills Rankings
 
 **Scouting tool for the 2026 VEX Robotics World Championship — Middle School**  
-Built by [Kayan Shah](https://github.com/KayanShah), Team Leader · **HABS Gliders 34071B**
+Built by [Kayan Shah](https://kayanshah.com), Team Leader · **HABS Gliders 34071B**
 
 <br/>
 
@@ -38,10 +38,10 @@ This project is licensed under the **[Creative Commons Attribution 4.0 Internati
 You are free to use, modify, and distribute this project — including commercially — provided that you:
 
 - **Credit the author** — Kayan Shah
-- **Link to the source** — [github.com/KayanShah](https://github.com/KayanShah)
+- **Link to the source** — [github.com/KayanShah](https://kayanshah.com)
 - **Indicate if changes were made**
 
-> © 2026 Kayan Shah · [github.com/KayanShah](https://github.com/KayanShah)
+> © 2026 Kayan Shah · [github.com/KayanShah](https://kayanshah.com)
 
 ---
 
@@ -143,7 +143,7 @@ Each PDF includes:
 - **Dark navy banner** with HABS Gliders logos on both sides, event title, division name, and team count
 - **Full ranked table** with Div #, Global #, Score, Auto, Driver, Team #, Team Name, Country
 - **Medal row highlights** — gold / silver / bronze for the top 3
-- **Per-page footer** on every page: page number · division label · *[Kayan Shah](https://github.com/KayanShah)* · HABS Gliders Scouting
+- **Per-page footer** on every page: page number · division label · *[Kayan Shah](https://kayanshah.com)* · HABS Gliders Scouting
 - **End block** — centred logo, team name, clickable author credit
 - **No-score section** listing any teams with no skills data
 - **Timestamp footer** — data freshness note + ranking methodology
@@ -217,7 +217,7 @@ HABS Gliders qualified for Worlds in their first season, ranking **#11 globally*
 
 <br/>
 
-Made with 🤖 by **[Kayan Shah](https://github.com/KayanShah)**  
+Made with 🤖 by **[Kayan Shah](https://kayanshah.com)**  
 Team Leader · HABS Gliders · 34071B · United Kingdom
 
 <br/>
